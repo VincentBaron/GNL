@@ -1,31 +1,33 @@
 #include "get_next_line.h"
 
-size_t  ft_strlen(char *s)
+int  ft_strlen(char *s)
 {
     int i;
     
     i = 0;
+	 if (!s)
+	 	return(0);
     while (s[i])
     {
         i++;
     }
     return (i);
-	 yo
 }
 
-void    ft_free(char *str)
+char    *ft_free(char *str)
 {
-    str = NULL;
-    free(str);
+   free(str);
+	str = NULL;
+	return (str);
 }
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, int start, int len)
 {
 	char			*sub;
-	unsigned int	i;
+	int	i;
 
 	if (!s)
-		s = "";
+		return (NULL);
 	if (start > ft_strlen(s))
 		len = 0;
 	if (!(sub = malloc(sizeof(char) * (len + 1))))
@@ -47,9 +49,8 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		size;
 	int		i;
 
-	
-	if (!s1)
-		s1 = ft_substr("", 0, 0);
+	if (!s1 || !s2)
+		return (NULL);
 	size = ft_strlen(s1) + ft_strlen(s2) + 1;
 	if (!(join = malloc(sizeof(char) * size)))
 		return (0);
@@ -67,6 +68,5 @@ char	*ft_strjoin(char *s1, char *s2)
 		i++;
 	}
 	join[i] = '\0';
-	ft_free(s1);
 	return (join);
 }

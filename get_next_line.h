@@ -6,8 +6,8 @@
 # include <unistd.h>
 
 char	*ft_strjoin(char *s1, char *s2);
-void    ft_free(char *str);
-size_t  ft_strlen(char *s);
-char	*ft_substr(char *s, unsigned int start, size_t len);
+char    *ft_free(char *str);
+int  ft_strlen(char *s);
+char		*ft_substr(char *s, int start, int len);
 
 #endif
