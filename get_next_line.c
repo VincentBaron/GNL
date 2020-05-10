@@ -6,7 +6,7 @@
 /*   By: vbaron <vbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 00:40:53 by vbaron            #+#    #+#             */
-/*   Updated: 2020/05/05 15:40:43 by vbaron           ###   ########.fr       */
+/*   Updated: 2020/05/10 20:15:41 by vbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,65 +17,73 @@
 #include "get_next_line.h"
 #define BUFFER_SIZE  30
 
-int check_line(char *str)
+int check_line(char *s)
 {
     int i;
-    
-    i = 0;
-    if (!str)
+
+    if (!s)
         return (-1);
-    while (str[i])
+    i = 0;
+    while (s[i])
     {
-        if (str[i] == '\n')
-            printf("i1: %d\n", i);
+        if (s[i] == '\n')
             return (i);
         i++;
     }
     return (-1);
 }
 
-void    read_file(int fd, char **leftover, char *buf, int *res)
-{   
-    while(check_line(*leftover) == -1 && (*res = read(fd, buf, BUFFER_SIZE) > 0))
+void    ft_parse(char **leftover, char *buf, int fd, int *ret)
+{
+    //printf("===FT_PARSE===\n\n");
+    while (check_line(*leftover) == -1 && (*ret = read(fd, buf, BUFFER_SIZE)) > 0)
     {
-        buf[*res] = '\0';
+        buf[*ret] = '\0';
+        //printf("buf1: %s\n", buf);
+        //printf("leftover1: %s\n", *leftover);
         *leftover = ft_strjoin(*leftover, buf);
+        //printf ("leftover: %s\n", *leftover);
+        //printf("check line : %d\n", check_line(*leftover));
+        //printf("ret: %d\n", *ret);
     }
 }
 
 int get_next_line(int fd, char **line)
 {
-    static char *leftover = NULL;
-    char *tmp;
     char buf[BUFFER_SIZE + 1];
-    int res;
+    static char *leftover = NULL;
+    char *temp;
+    int ret;
 
-    if (fd < 0 || BUFFER_SIZE < 1 || (res = read(fd, buf, 0)) < 0 || line == NULL)
+    if (fd < 0 || BUFFER_SIZE <= 0 || !line || read(fd, buf, 0) < 0)
         return (-1);
-    read_file(fd, &leftover, buf, &res);
+    ft_parse(&leftover, buf, fd, &ret);
+    //printf("===GET_NEXT_LINE===\n\n");
+    //printf("ret: %d\n", ret);
+    //printf("check_line: %d\n", check_line(leftover));
     if (check_line(leftover) > -1)
     {
+        //printf ("leftover: %s\n", leftover);
         *line = ft_substr(leftover, 0, check_line(leftover));
-        tmp = ft_substr(leftover, 0, ft_strlen(leftover));
-        leftover = ft_free(leftover);
-        leftover = ft_substr(tmp, check_line(tmp) + 1, ft_strlen(tmp));
-        tmp = ft_free(tmp);
+        //printf("*line: %s\n", *line);
+        temp = ft_substr(leftover, check_line(leftover) + 1, ft_strlen(leftover));
+        ft_free(leftover);
+        leftover = ft_substr(temp, 0, ft_strlen(temp)); 
+        ft_free(temp);
         return (1);
     }
     else
     {
         *line = ft_substr(leftover, 0, ft_strlen(leftover));
-        leftover = ft_free(leftover);
+        ft_free(leftover);
     }
     return (0);
-    
 }
 
 int main()
 {
     int fd;
     char *line;
-    int ret;
 
     fd = open("monologue_cleopatre.txt", O_RDONLY);
     if (fd == -1)
@@ -83,11 +91,12 @@ int main()
         printf ("error open");
         return (1);
     }
-    printf("yo");
-    while ((ret = get_next_line(fd, &line)) > 0)
+    //printf("yo");
+    while (get_next_line(fd, &line) > 0)
     {    
         printf("%s\n", line);
     }
+    printf("%s\n", line);
     if (close(fd) == -1)
     {
         printf("error close");
