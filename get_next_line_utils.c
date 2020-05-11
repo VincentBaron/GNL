@@ -21,45 +21,49 @@ void    ft_free(char *s)
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*join;
-	int		size;
-	int		i;
+	unsigned int size;
+	unsigned int i;
+	unsigned int f;
 
     if (!s1)
-        s1 = "";
-   // printf("s1len: %d\n", (int)ft_strlen(s1));
+        s1 = ft_substr("", 0, 0);
     size = ft_strlen(s1) + ft_strlen(s2);
-    //printf ("size: %d\n", size);
 	if (!(join = malloc(sizeof(char) * (size + 1))))
+	{
+		ft_free(s1);
 		return (NULL);
+	}
 	i = 0;
-	while (*s1 && i < size)
+	f = 0;
+	while (s1[i])
 	{
-		join[i] = *s1;
-		s1++;
+		join[f] = s1[i];
+		i++;
+		f++;
+	}
+	i = 0;
+	while (s2[i])
+	{
+		join[f] = s2[i];
+		f++;
 		i++;
 	}
-	while (*s2 && i < size)
-	{
-		join[i] = *s2;
-		s2++;
-		i++;
-	}
-	join[i] = '\0';
-    //printf ("join: %s\n", join);
+	join[f] = '\0';
+	ft_free(s1);
 	return (join);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	char			*sub;
 	unsigned int	i;
 
 	if (!s)
-		return (NULL);
+		s = "";
 	if (start > ft_strlen(s))
 		len = 0;
 	if (!(sub = malloc(sizeof(char) * (len + 1))))
-		return (0);
+		return (NULL);
 	i = 0;
 	while (i < len)
 	{
