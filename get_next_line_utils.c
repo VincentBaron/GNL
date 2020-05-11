@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbaron <vbaron@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/05/11 11:51:19 by vbaron            #+#    #+#             */
+/*   Updated: 2020/05/11 12:04:43 by vbaron           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 size_t	ft_strlen(const char *s)
@@ -5,29 +17,29 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	if (!s)
-        return (0);
-    i = 0;
+		return (0);
+	i = 0;
 	while (s[i])
 		i++;
 	return (i);
 }
 
-void    ft_free(char *s)
+void	ft_free(char *s)
 {
-    free(s);
-    s = NULL;
+	free(s);
+	s = NULL;
 }
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*join;
-	unsigned int size;
-	unsigned int i;
-	unsigned int f;
+	char			*join;
+	unsigned int	size;
+	unsigned int	i;
+	unsigned int	f;
 
-    if (!s1)
-        s1 = ft_substr("", 0, 0);
-    size = ft_strlen(s1) + ft_strlen(s2);
+	if (!s1)
+		s1 = ft_substr("", 0, 0);
+	size = ft_strlen(s1) + ft_strlen(s2);
 	if (!(join = malloc(sizeof(char) * (size + 1))))
 	{
 		ft_free(s1);
@@ -36,18 +48,10 @@ char	*ft_strjoin(char *s1, char *s2)
 	i = 0;
 	f = 0;
 	while (s1[i])
-	{
-		join[f] = s1[i];
-		i++;
-		f++;
-	}
+		join[f++] = s1[i++];
 	i = 0;
 	while (s2[i])
-	{
-		join[f] = s2[i];
-		f++;
-		i++;
-	}
+		join[f++] = s2[i++];
 	join[f] = '\0';
 	ft_free(s1);
 	return (join);
