@@ -6,7 +6,7 @@
 /*   By: vbaron <vbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 00:40:53 by vbaron            #+#    #+#             */
-/*   Updated: 2020/05/10 20:15:41 by vbaron           ###   ########.fr       */
+/*   Updated: 2020/05/11 10:58:21 by vbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,10 @@ int main()
     while (get_next_line(fd, &line) > 0)
     {    
         printf("%s\n", line);
+        ft_free(line);
     }
     printf("%s\n", line);
+    ft_free(line);
     if (close(fd) == -1)
     {
         printf("error close");
