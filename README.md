@@ -1,7 +1,7 @@
 # GNL
 ## Project overview
 
-This project aimed at understanding how to use file descriptors and parsing data.
+This project aimed at parsing a file line by line and writing it to a buffer with a pre defined buffer size.
 
 ## What I learned
 
